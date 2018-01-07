@@ -6,10 +6,10 @@
 
 unsigned int indices[] = { 0, 1, 2 };
 
-Transform transform;
-Transform transform1;
-Transform transform2;
-Transform transform3;
+Transform* transform = new Transform();
+Transform* transform1 = new Transform();
+Transform* transform2 = new Transform();
+Transform* transform3 = new Transform();
 
 GameApplication::GameApplication()
 {
@@ -53,7 +53,7 @@ void GameApplication::InitializeSystems()
 	m_SceneCamera.InitializeCamera(glm::vec3(0, 60, -45), 70.0f, (float)m_GameScreen.GetWidth() / m_GameScreen.GetHeight(), 0.01f, 1000.0f);
 	m_SceneCamera.Pitch(0.25*4);
 	m_ActiveCamera = m_SceneCamera;
-	transform3.SetPos(glm::vec3(0, 0, -5));
+	transform3->SetPos(glm::vec3(0, 0, -5));
 	controllingModel = false;
 	counter = 0.0f;
 }
@@ -61,7 +61,7 @@ void GameApplication::InitializeSystems()
 void GameApplication::MainGameLoop()
 {
 	audioManager.GetEngine()->play2D("../res/audio/bensound-extremeaction.wav", GL_TRUE);
-	transform3.SetPos(m_GameCamera.GetPos());
+	transform3->SetPos(m_GameCamera.GetPos());
 	while (m_CurrentState != GameState::EXIT)
 	{
 		ManageInput();
@@ -97,68 +97,68 @@ void GameApplication::ManageInput()
 				if (controllingModel == false)
 				{
 					m_GameCamera.MoveLeftRight(-0.5);
-					transform3.SetPos(glm::vec3(m_GameCamera.GetPos()));
+					transform3->SetPos(glm::vec3(m_GameCamera.GetPos()));
 				}
 				else
 				{
-					transform3.SetPos(glm::vec3(transform3.GetPosition()->x - 0.5f, transform3.GetPosition()->y, transform3.GetPosition()->z));
+					transform3->SetPos(glm::vec3(transform3->GetPosition()->x - 0.5f, transform3->GetPosition()->y, transform3->GetPosition()->z));
 				}
 				break;
 			case SDLK_LEFT:
 				if (controllingModel == false)
 				{
 					m_GameCamera.MoveLeftRight(0.5);
-					transform3.SetPos(glm::vec3(m_GameCamera.GetPos()));
+					transform3->SetPos(glm::vec3(m_GameCamera.GetPos()));
 				}
 				else
 				{
-					transform3.SetPos(glm::vec3(transform3.GetPosition()->x + 0.5f, transform3.GetPosition()->y, transform3.GetPosition()->z));
+					transform3->SetPos(glm::vec3(transform3->GetPosition()->x + 0.5f, transform3->GetPosition()->y, transform3->GetPosition()->z));
 				}
 				break;
 			case SDLK_UP:
 				if (controllingModel == false)
 				{
 					m_GameCamera.MoveForwardBack(0.5);
-					transform3.SetPos(glm::vec3(m_GameCamera.GetPos()));
+					transform3->SetPos(glm::vec3(m_GameCamera.GetPos()));
 				}
 				else
 				{
-					transform1.SetPos(glm::vec3(transform1.GetPosition()->x, transform1.GetPosition()->y, transform1.GetPosition()->z + 0.5f));
+					transform1->SetPos(glm::vec3(transform1->GetPosition()->x, transform1->GetPosition()->y, transform1->GetPosition()->z + 0.5f));
 				}
 				break;
 			case SDLK_DOWN:
 				if (controllingModel == false)
 				{
 					m_GameCamera.MoveForwardBack (-0.5);
-					transform3.SetPos(glm::vec3(m_GameCamera.GetPos()));
+					transform3->SetPos(glm::vec3(m_GameCamera.GetPos()));
 				}
 				else
 				{
-					transform1.SetPos(glm::vec3(transform1.GetPosition()->x, transform1.GetPosition()->y, transform1.GetPosition()->z - 0.5f));
+					transform1->SetPos(glm::vec3(transform1->GetPosition()->x, transform1->GetPosition()->y, transform1->GetPosition()->z - 0.5f));
 				}
 				break;
 			case SDLK_w:
 				if (controllingModel == false)
 				{
 					m_ActiveCamera.Pitch(-0.25f);
-					transform1.SetPos(m_GameCamera.GetForward());
+					transform1->SetPos(m_GameCamera.GetForward());
 					
 				}
 				else
 				{
-					transform1.SetRot(glm::vec3(transform1.GetRot()->x + 0.5, transform1.GetRot()->y, transform1.GetRot()->z));
+					transform1->SetRot(glm::vec3(transform1->GetRot()->x + 0.5, transform1->GetRot()->y, transform1->GetRot()->z));
 				}
 				break;
 			case SDLK_s:
 				if (controllingModel == false)
 				{
 					m_ActiveCamera.Pitch(0.25f);
-					transform1.SetPos(m_GameCamera.GetForward());
+					transform1->SetPos(m_GameCamera.GetForward());
 
 				}
 				else
 				{
-					transform1.SetRot(glm::vec3(transform1.GetRot()->x - 0.5, transform1.GetRot()->y, transform1.GetRot()->z));
+					transform->SetRot(glm::vec3(transform1->GetRot()->x - 0.5, transform1->GetRot()->y, transform1->GetRot()->z));
 				}
 				break;
 			case SDLK_d:
@@ -168,7 +168,7 @@ void GameApplication::ManageInput()
 				}
 				else
 				{
-					transform1.SetRot(glm::vec3(transform1.GetRot()->x, transform1.GetRot()->y - 0.5, transform1.GetRot()->z));
+					transform1->SetRot(glm::vec3(transform1->GetRot()->x, transform1->GetRot()->y - 0.5, transform1->GetRot()->z));
 				}
 				break;
 			case SDLK_a:
@@ -178,7 +178,7 @@ void GameApplication::ManageInput()
 				}
 				else
 				{
-					transform1.SetRot(glm::vec3(transform1.GetRot()->x, transform1.GetRot()->y + 0.5, transform1.GetRot()->z));
+					transform1->SetRot(glm::vec3(transform1->GetRot()->x, transform1->GetRot()->y + 0.5, transform1->GetRot()->z));
 				}
 				break;
 			case SDLK_EQUALS:
@@ -221,7 +221,7 @@ void GameApplication::RenderScene()
 	Texture texture2("../res/bure5.png");
 	//textureGraph = {texture, texture1, texture2};
 
-	if (transform.isActive)
+	if (transform->isActive)
 	{
 		shader.BindShader();
 		shader.Update(transform, m_ActiveCamera);
@@ -229,7 +229,7 @@ void GameApplication::RenderScene()
 		model.DrawMesh();
 	}
 
-	if (transform1.isActive)
+	if (transform1->isActive)
 	{
 		shader1.BindShader();
 		shader1.Update(transform1, m_ActiveCamera);
@@ -237,7 +237,7 @@ void GameApplication::RenderScene()
 		model1.DrawMesh();
 	}
 	
-	if (transform2.isActive)
+	if (transform2->isActive)
 	{
 		shader2.BindShader();
 		shader2.Update(transform2, m_ActiveCamera);
@@ -272,19 +272,19 @@ void GameApplication::QuitGame()
 void GameApplication::UpdateTransforms()
 {
 
-	transform.SetPos(glm::vec3(10.0, 0.0, 0.0));
-	transform.SetRot(glm::vec3(0.0, counter * 5, 0.0f));
-	transform.SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+	transform->SetPos(glm::vec3(10.0, 0.0, 0.0));
+	transform->SetRot(glm::vec3(0.0, counter * 5, 0.0f));
+	transform->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
 
-	transform1.SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
-
-	transform2.SetPos(glm::vec3(-10, 0, 0));
-	transform2.SetRot(glm::vec3(0.0, counter * -5, 0.0));
-	transform2.SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+	transform1->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
+			  
+	transform2->SetPos(glm::vec3(-10, 0, 0));
+	transform2->SetRot(glm::vec3(0.0, counter * -5, 0.0));
+	transform2->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
 	sceneGraph = { transform, transform1, transform2, transform3 };
 	for (int i = 0; i < sceneGraph.size(); i++)
 	{
-		sceneGraph[i].collider.colSize = 0.03;
+		sceneGraph[i]->collider.colSize = 0.03;
 	}
 }
 
@@ -301,33 +301,26 @@ void GameApplication::CheckCollisions()
 			//do not check if the object is colliding with itself
 			if (i != j)
 			{
-				int xDist = sceneGraph[i].collider.position.x - sceneGraph[j].collider.position.x;
-				//if (xDist < 0) { xDist *= -1; }
-				int yDist = sceneGraph[i].collider.position.y - sceneGraph[j].collider.position.y;
-				//if (yDist < 0) { xDist *= -1; }
-				int zDist = sceneGraph[i].collider.position.z - sceneGraph[j].collider.position.z;
+				int xDist = sceneGraph[i]->collider.position.x - sceneGraph[j]->collider.position.x;
+				//if (xDist < 0) { xDist ->= -1; }							  ->
+				int yDist = sceneGraph[i]->collider.position.y - sceneGraph[j]->collider.position.y;
+				//if (yDist < 0) { xDist ->= -1; }							  ->
+				int zDist = sceneGraph[i]->collider.position.z - sceneGraph[j]->collider.position.z;
 				//if (zDist < 0) { xDist *= -1; }
 				float dist = sqrt(xDist ^ 2 + yDist ^ 2 + zDist ^ 2);
-				float radSum = sceneGraph[i].collider.colSize + sceneGraph[j].collider.colSize;
+				float radSum = sceneGraph[i]->collider.colSize + sceneGraph[j]->collider.colSize;
 
 				if (dist < radSum)
 				{
 					std::cout << "objects " << i << " and " << j << " are colliding";
 					if (i != 3)
 					{
-						sceneGraph[i].isActive = false;
-						transform = sceneGraph[0];
-						transform1 = sceneGraph[1];
-						transform2 = sceneGraph[2];
-						transform3 = sceneGraph[3];
+						sceneGraph[i]->isActive = false;
+						
 					}
 					if (j != 3)
 					{
-						sceneGraph[j].isActive = false;
-						transform = sceneGraph[0];
-						transform1 = sceneGraph[1];
-						transform2 = sceneGraph[2];
-						transform3 = sceneGraph[3];
+						sceneGraph[j]->isActive = false;
 					}
 				}
 			}
@@ -336,7 +329,7 @@ void GameApplication::CheckCollisions()
 	}
 }
 
-Transform GameApplication::CurrentTransform(int reference)
+Transform* GameApplication::CurrentTransform(int reference)
 {
 	return sceneGraph[reference];
 }

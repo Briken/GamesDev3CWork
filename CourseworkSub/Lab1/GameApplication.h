@@ -34,7 +34,7 @@ private:
 	void QuitGame();
 	void UpdateTransforms();
 	void CheckCollisions();
-	Transform CurrentTransform(int reference);
+	Transform* CurrentTransform(int reference);
 	
 
 	Screen m_GameScreen;
@@ -56,7 +56,7 @@ private:
 	
 
 	std::vector<Model*> modelGraph;
-	std::vector<Transform> sceneGraph;
+	std::vector<Transform*> sceneGraph;
 	//Transform sceneGraph[4];
 	std::vector<Texture> textureGraph;
 	
