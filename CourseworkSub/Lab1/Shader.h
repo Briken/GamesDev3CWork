@@ -4,7 +4,7 @@
 #include "Transform.h"
 #include "Camera.h"
 
-class Shader
+class Shader//basic shader class used to set, bind, update, and render from the shader
 {
 public:
 	Shader(const std::string& filename);
@@ -14,7 +14,7 @@ public:
 	void BindShader(); //Set gpu to use our shaders
 	void Update(const Transform* transform, const Camera& camera);
 
-	void SetDirection(Camera camera);
+	void SetDirection(Camera camera);//used to create a light director for a toon shader
 
 	std::string Shader::LoadShader(const std::string& fileName);
 	void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);

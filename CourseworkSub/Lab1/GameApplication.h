@@ -29,21 +29,23 @@ public:
 
 private:
 
-	void InitializeSystems();
-	void ManageInput();
-	void MainGameLoop();
-	void RenderScene();
-	void SwitchControlMode();
-	void QuitGame();
-	void UpdateTransforms();
-	void CheckCollisions();
-	Transform* CurrentTransform(int reference);
+	void InitializeSystems();//initialise game systems
+	void ManageInput();//manage keypresses
+	void MainGameLoop();//run the core loop
+	void RenderScene();//renders current scene
+	void SwitchControlMode();//switches between control of the camera and an object in the scene
+	void QuitGame();//ends processes
+	void UpdateTransforms();//updates the transforms in the scene
+	void CheckCollisions();//checks for collisions in the scene
+	
+	void Reload(); // resets the level
 	
 
 	Screen m_GameScreen;
 	Light m_Light;
 	GameState m_CurrentState;
 
+	//a collection of models, shaders, textures and cameras
 	Model model;
 	Model model1;
 	Model model2;
@@ -57,19 +59,18 @@ private:
 	Texture* texture1;
 	Texture* texture2;
 	
-	Camera m_GameCamera;
-	Camera m_SceneCamera;
-	Camera m_ActiveCamera;
+	Camera m_GameCamera;//first person camera, used to move the ball about the scene
+	Camera m_SceneCamera;//default camera for the scene
+	Camera m_ActiveCamera;//used to determine which camera is to be used
 
-	bool controllingModel;
+	bool controllingModel;//used to determine the if a model is being controlled or if the camera is being controlled
 	float counter;
 	
-	Audio audioManager;
+	Audio audioManager;//manager for scene audio
 	
-
+	//graphs to hold relevant classes
 	std::vector<Model*> modelGraph;
 	std::vector<Transform*> sceneGraph;
-	//Transform sceneGraph[4];
 	std::vector<Texture> textureGraph;
 	
 	

@@ -7,17 +7,17 @@ using namespace irrklang;
 class Audio
 {
 public:
-	Audio();
-	~Audio();
+	Audio(); //default constructor creates the engine
+	~Audio();//destructor deletes the engine
 
-	ISoundEngine* GetEngine();
-	float volume; 
+	ISoundEngine* GetEngine(); //returns the sound engine managing the sound
+	float volume; //volume for the engine
 	
 
 
 
 	private:
-	ISoundEngine* soundEngine;
+	ISoundEngine* soundEngine; // sound engine used to manage soune
 
 };
 

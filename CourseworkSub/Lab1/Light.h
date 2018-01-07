@@ -9,6 +9,7 @@ public:
 
 	Light();
 	
+	//light for the scene
 	void initLight(glm::vec3 position, glm::vec4 ambientColour, glm::vec4 diffuseColour, glm::vec4 specularColour);
 	glm::vec3 GetPosition();
 	glm::vec4 GetAmbientColour();

@@ -31,13 +31,14 @@ class Model
 public:
 	Model();
 	~Model();
-	bool isActive = true;
-	void DrawMesh();
-	void InitializeMesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
-	void LoadModel(const std::string& filename);
-	void InitializeModel(const IndexedModel& model);
 	
-//	Transform transform;
+
+	//each function does as its name would suggest
+	void DrawMesh(); //draws the loaded mesh
+	void InitializeMesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);//initiaises the mesh before drawing
+	void LoadModel(const std::string& filename);//loads the model from a filename
+	void InitializeModel(const IndexedModel& model);//pulls the attributes from the model
+	
 private:
 
 

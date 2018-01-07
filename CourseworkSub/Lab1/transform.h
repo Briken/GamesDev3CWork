@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "Collider.h"
 
-struct Transform
+struct Transform//holds all transform data for the model, position rotation scale, also holds a collider for collision detection
 {
 public:
 	bool isActive = true;

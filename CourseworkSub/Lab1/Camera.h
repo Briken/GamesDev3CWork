@@ -58,13 +58,22 @@ public:
 		m_Forward = glm::vec3(glm::normalize(rotation * glm::vec4(m_Forward, 0.0)));
 		m_Up = glm::vec3(glm::normalize(rotation * glm::vec4(m_Up, 0.0)));
 	}
+	//returns camera position
 	glm::vec3 GetPos()
 	{
 		return this->m_Position;
 	}
+
+	//returns the forward vector (used in the toon shader to determine light direction)
 	glm::vec3 GetForward()
 	{
 		return this->m_Forward;
+	}
+
+	//sets the camera position
+	void SetPos(glm::vec3 pos)
+	{
+		this->m_Position = pos;
 	}
 
 	bool isActive = true;

@@ -4,7 +4,7 @@
 
 class Texture
 {
-public:
+public://basic texture class to load, set active and bind a texture to the pipeline for drawing
 	Texture(const std::string& fileName);
 	Texture();
 	void SetTexture(const std::string& fileName);

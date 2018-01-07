@@ -21,7 +21,7 @@ GameApplication::GameApplication()
 	Model* model1 = new Model();
 	Model* model2 = new Model();
 	Model* model3 = new Model();
-	sceneGraph = { transform, transform1, transform2, transform3 };
+	sceneGraph = { transform, transform1, transform2, transform3 }; 
 	modelGraph = { model, model1, model2, model3 };
 	
 }
@@ -35,6 +35,7 @@ void GameApplication::run()
 	InitializeSystems(); 
 	MainGameLoop();
 }
+
 
 void GameApplication::InitializeSystems()
 {
@@ -58,7 +59,7 @@ void GameApplication::InitializeSystems()
 	m_SceneCamera.Pitch(0.25*4);
 	m_ActiveCamera = m_SceneCamera;
 	
-	transform3->SetPos(glm::vec3(0, 0, -5));
+	transform3->SetPos(m_GameCamera.GetPos());
 	sceneGraph[0]->collider.colSize = 5;
 	sceneGraph[1]->collider.colSize = 2;
 	sceneGraph[2]->collider.colSize = 2;
@@ -67,6 +68,7 @@ void GameApplication::InitializeSystems()
 	controllingModel = false;
 	counter = 0.0f;
 }
+
 
 void GameApplication::MainGameLoop()
 {
@@ -190,6 +192,9 @@ void GameApplication::ManageInput()
 				{
 					transform1->SetRot(glm::vec3(transform1->GetRot()->x, transform1->GetRot()->y + 0.5, transform1->GetRot()->z));
 				}
+				break;
+			case SDLK_r:
+				Reload();
 				break;
 			case SDLK_EQUALS:
 				audioManager.volume = audioManager.GetEngine()->getSoundVolume();
@@ -355,9 +360,14 @@ void GameApplication::CheckCollisions()
 	}
 }
 
-Transform* GameApplication::CurrentTransform(int reference)
+void GameApplication::Reload()
 {
-	return sceneGraph[reference];
+	for (int i = 0; i < sceneGraph.size(); i++)
+	{
+		sceneGraph[i]->isActive = true;
+	}
+	m_GameCamera.SetPos(glm::vec3(0, 3, -40));
+	transform3->SetPos(m_GameCamera.GetPos());
 }
 
 

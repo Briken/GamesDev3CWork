@@ -3,14 +3,12 @@
 class Collider
 {
 public:
-	Collider();
-	~Collider();
+	Collider(); //constructor
+	~Collider();//destructor
 
-	float colSize;
-	bool collidingX;
-	bool collidingY;
-	bool collidingZ;
+	float colSize;//radius of the collider
 
-	glm::vec3 position;
+
+	glm::vec3 position;//collider current position
 };
 
