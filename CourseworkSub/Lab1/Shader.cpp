@@ -15,6 +15,7 @@ Shader::Shader(const std::string& filename)
 
 	glBindAttribLocation(m_Program, 0, "position"); // associate attribute variable with our shader m_Program attribute (in this case attribute vec3 position;)
 	glBindAttribLocation(m_Program, 1, "texCoord"); 
+	glBindAttribLocation(m_Program, 2, "normal");
 
 	glLinkProgram(m_Program); //create executables that will run on the GPU shaders
 	CheckShaderError(m_Program, GL_LINK_STATUS, true, "Error: Shader program linking failed"); // cheack for error
@@ -22,7 +23,8 @@ Shader::Shader(const std::string& filename)
 	glValidateProgram(m_Program); //check the entire program is valid
 	CheckShaderError(m_Program, GL_VALIDATE_STATUS, true, "Error: Shader program not valid");
 
-	m_Uniforms[TRANSFORM_U] = glGetUniformLocation(m_Program, "transform"); // associate with the location of uniform variable within a program
+	m_Uniforms[TRANSFORM_U] = glGetUniformLocation(m_Program, "transform"); 
+	m_Uniforms[LIGHTDIR_U] = glGetUniformLocation(m_Program, "lightDir");
 }
 
 Shader::Shader()
@@ -60,7 +62,11 @@ void Shader::Update(const Transform* transform, const Camera& camera)
 	glm::mat4 mvp = camera.GetViewProjection() * transform->GetModel();
 	glUniformMatrix4fv(m_Uniforms[TRANSFORM_U], 1, GLU_FALSE, &mvp[0][0]);
 }
-
+void Shader::SetDirection(Camera camera)
+{
+	glm::vec3 direction = camera.GetForward();
+	glUniform3fv(m_Uniforms[LIGHTDIR_U], 1, &direction[0]);
+}
 
 GLuint Shader::CreateShader(const std::string& text, unsigned int type)
 {

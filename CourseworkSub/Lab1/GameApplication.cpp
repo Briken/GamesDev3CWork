@@ -39,11 +39,11 @@ void GameApplication::run()
 void GameApplication::InitializeSystems()
 {
 		
-	m_Light.initLight(glm::vec3(0.1f, 0.0f, 0.0f), glm::vec4(0.1f, 0.0f, 0.0f, 1.0f), glm::vec4(0.1f, 0.0f, 0.0f, 1.0f), glm::vec4(0.1f, 0.0f, 0.0f, 1.0f));
+	m_Light.initLight(glm::vec3(0.1f, 0.0f, 0.0f), glm::vec4(0.1f, 0.1f, 0.1f, 1.0f), glm::vec4(0.1f, 0.0f, 0.0f, 1.0f), glm::vec4(0.1f, 0.0f, 0.0f, 1.0f));
 	m_GameScreen.InitializeScreen(); 
 	
 	shader = new Shader("../res/shader"); //new shader
-	shader1 = new Shader("../res/shader");
+	shader1 = new Shader("../res/toon");
 	shader2 = new Shader("../res/shader");
 	texture = new Texture("../res/bure4.png"); //load texture
 	texture1 = new Texture("../res/water.jpg"); //load texture
@@ -237,6 +237,7 @@ void GameApplication::RenderScene()
 	if (transform1->isActive)
 	{
 		shader1->BindShader();
+		shader1->SetDirection(m_SceneCamera);
 		shader1->Update(transform1, m_ActiveCamera);
 		texture1->BindTexture(0);
 		model1.DrawMesh();
