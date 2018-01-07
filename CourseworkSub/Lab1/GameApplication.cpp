@@ -42,7 +42,7 @@ void GameApplication::InitializeSystems()
 	m_Light.initLight(glm::vec3(0.1f, 0.0f, 0.0f), glm::vec4(0.1f, 0.1f, 0.1f, 1.0f), glm::vec4(0.1f, 0.0f, 0.0f, 1.0f), glm::vec4(0.1f, 0.0f, 0.0f, 1.0f));
 	m_GameScreen.InitializeScreen(); 
 	
-	shader = new Shader("../res/shader"); //new shader
+	shader = new Shader("../res/toon"); //new shader
 	shader1 = new Shader("../res/toon");
 	shader2 = new Shader("../res/shader");
 	texture = new Texture("../res/bure4.png"); //load texture
