@@ -25,6 +25,15 @@ Shader::Shader(const std::string& filename)
 	m_Uniforms[TRANSFORM_U] = glGetUniformLocation(m_Program, "transform"); // associate with the location of uniform variable within a program
 }
 
+Shader::Shader()
+{
+}
+
+void Shader::SetShader(const std::string & filename)
+{
+//	Shader(filename);
+}
+
 
 Shader::~Shader()
 {

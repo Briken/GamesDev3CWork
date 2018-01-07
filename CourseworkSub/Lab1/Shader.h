@@ -8,6 +8,8 @@ class Shader
 {
 public:
 	Shader(const std::string& filename);
+	Shader();
+	void SetShader(const std::string& filename);
 
 	void BindShader(); //Set gpu to use our shaders
 	void Update(const Transform* transform, const Camera& camera);

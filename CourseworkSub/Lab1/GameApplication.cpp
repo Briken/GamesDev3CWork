@@ -42,18 +42,28 @@ void GameApplication::InitializeSystems()
 	m_Light.initLight(glm::vec3(0.1f, 0.0f, 0.0f), glm::vec4(0.1f, 0.0f, 0.0f, 1.0f), glm::vec4(0.1f, 0.0f, 0.0f, 1.0f), glm::vec4(0.1f, 0.0f, 0.0f, 1.0f));
 	m_GameScreen.InitializeScreen(); 
 	
-	
+	shader = new Shader("../res/shader"); //new shader
+	shader1 = new Shader("../res/shader");
+	shader2 = new Shader("../res/shader");
+	texture = new Texture("../res/bure4.png"); //load texture
+	texture1 = new Texture("../res/water.jpg"); //load texture
+	texture2 = new Texture("../res/bure5.png");
 	model.LoadModel("../res/box4obj.obj");
 	model1.LoadModel("../res/monkey3.obj");
 	model2.LoadModel("../res/box5obj.obj");
 	model3.LoadModel("../res/soccer_ball.obj");
 	
 	m_GameCamera.InitializeCamera(glm::vec3(0, 3, -40), 70.0f, (float)m_GameScreen.GetWidth()/m_GameScreen.GetHeight(), 0.01f, 1000.0f);
-	
 	m_SceneCamera.InitializeCamera(glm::vec3(0, 60, -45), 70.0f, (float)m_GameScreen.GetWidth() / m_GameScreen.GetHeight(), 0.01f, 1000.0f);
 	m_SceneCamera.Pitch(0.25*4);
 	m_ActiveCamera = m_SceneCamera;
+	
 	transform3->SetPos(glm::vec3(0, 0, -5));
+	sceneGraph[0]->collider.colSize = 5;
+	sceneGraph[1]->collider.colSize = 2;
+	sceneGraph[2]->collider.colSize = 2;
+	sceneGraph[3]->collider.colSize = 5;
+	
 	controllingModel = false;
 	counter = 0.0f;
 }
@@ -213,40 +223,36 @@ void GameApplication::RenderScene()
 {
 	m_GameScreen.ClearScreen(1.0f, 1.0f, 1.0f, 1.0f);
 
-	Shader shader("../res/shader"); //new shader
-	Shader shader1("../res/shader");
-	Shader shader2("../res/shader");
-	Texture texture("../res/bure4.png"); //load texture
-	Texture texture1("../res/water.jpg"); //load texture
-	Texture texture2("../res/bure5.png");
+	
 	//textureGraph = {texture, texture1, texture2};
 
 	if (transform->isActive)
 	{
-		shader.BindShader();
-		shader.Update(transform, m_ActiveCamera);
-		texture.BindTexture(0);
+		shader->BindShader();
+		shader->Update(transform, m_ActiveCamera);
+		texture->BindTexture(0);
 		model.DrawMesh();
 	}
 
 	if (transform1->isActive)
 	{
-		shader1.BindShader();
-		shader1.Update(transform1, m_ActiveCamera);
-		texture1.BindTexture(0);
+		shader1->BindShader();
+		shader1->Update(transform1, m_ActiveCamera);
+		texture1->BindTexture(0);
 		model1.DrawMesh();
 	}
 	
 	if (transform2->isActive)
 	{
-		shader2.BindShader();
-		shader2.Update(transform2, m_ActiveCamera);
-		texture2.BindTexture(0);
+		shader2->BindShader();
+		shader2->Update(transform2, m_ActiveCamera);
+		texture2->BindTexture(0);
 		model2.DrawMesh();
 	}
 
-		shader.BindShader();
-		shader.Update(transform3, m_ActiveCamera);
+		shader->BindShader();
+		shader->Update(transform3, m_ActiveCamera);
+		texture2->BindTexture(0);
 		model3.DrawMesh();
 
 
@@ -281,11 +287,11 @@ void GameApplication::UpdateTransforms()
 	transform2->SetPos(glm::vec3(-10, 0, 0));
 	transform2->SetRot(glm::vec3(0.0, counter * -5, 0.0));
 	transform2->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
-	sceneGraph = { transform, transform1, transform2, transform3 };
-	for (int i = 0; i < sceneGraph.size(); i++)
-	{
-		sceneGraph[i]->collider.colSize = 0.03;
-	}
+	//sceneGraph = { transform, transform1, transform2, transform3 };
+	//for (int i = 0; i < sceneGraph.size(); i++)
+	//{
+		
+		//}
 }
 
 void GameApplication::CheckCollisions()
@@ -299,28 +305,40 @@ void GameApplication::CheckCollisions()
 		{
 			//check distance between the edges of two colliders, if that distance is less than 0 then they are colliding
 			//do not check if the object is colliding with itself
-			if (i != j)
+			if (i != j && sceneGraph[i]->isActive && sceneGraph[j]->isActive)
 			{
-				int xDist = sceneGraph[i]->collider.position.x - sceneGraph[j]->collider.position.x;
-				//if (xDist < 0) { xDist ->= -1; }							  ->
-				int yDist = sceneGraph[i]->collider.position.y - sceneGraph[j]->collider.position.y;
-				//if (yDist < 0) { xDist ->= -1; }							  ->
-				int zDist = sceneGraph[i]->collider.position.z - sceneGraph[j]->collider.position.z;
-				//if (zDist < 0) { xDist *= -1; }
-				float dist = sqrt(xDist ^ 2 + yDist ^ 2 + zDist ^ 2);
+
+				
+				
+				float xDist = sceneGraph[i]->collider.position.x - sceneGraph[j]->collider.position.x;
+				
+				float yDist = sceneGraph[i]->collider.position.y - sceneGraph[j]->collider.position.y;
+				
+				float zDist = sceneGraph[i]->collider.position.z - sceneGraph[j]->collider.position.z;
+				float totalDist = glm::pow(xDist, 2) + glm::pow(yDist, 2) + glm::pow(zDist, 2);
+				
+				float dist = glm::sqrt(totalDist);
 				float radSum = sceneGraph[i]->collider.colSize + sceneGraph[j]->collider.colSize;
 
 				if (dist < radSum)
 				{
-					std::cout << "objects " << i << " and " << j << " are colliding";
-					if (i != 3)
+					if (i == 2)
 					{
-						sceneGraph[i]->isActive = false;
-						
+						i = 2;
 					}
-					if (j != 3)
+					if (sceneGraph[i]->isActive && sceneGraph[j]->isActive)
 					{
-						sceneGraph[j]->isActive = false;
+						std::cout << "objects " << i << " and " << j << " are colliding" << endl;
+						if (i != 3)
+						{
+							sceneGraph[i]->isActive = false;
+							audioManager.GetEngine()->play2D("../res/audio/dead.wav", GL_FALSE);
+						}
+						if (j != 3)
+						{
+							sceneGraph[j]->isActive = false;
+							audioManager.GetEngine()->play2D("../res/audio/dead.wav", GL_FALSE);
+						}
 					}
 				}
 			}

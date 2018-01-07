@@ -3,6 +3,9 @@
 #include <string>
 #include <ostream>
 #include <glm\glm.hpp>
+#include <glm\gtx\transform.hpp>
+#include <glm\ext.hpp>
+#include <glm\gtc\matrix_transform.hpp>
 #include <SDL\SDL.h>
 #include <GL/glew.h>
 #include <Windows.h>
@@ -40,13 +43,22 @@ private:
 	Screen m_GameScreen;
 	Light m_Light;
 	GameState m_CurrentState;
+
 	Model model;
 	Model model1;
 	Model model2;
 	Model model3;
+	
+	Shader* shader;
+	Shader* shader1;
+	Shader* shader2;
+	
+	Texture* texture;
+	Texture* texture1;
+	Texture* texture2;
+	
 	Camera m_GameCamera;
 	Camera m_SceneCamera;
-
 	Camera m_ActiveCamera;
 
 	bool controllingModel;

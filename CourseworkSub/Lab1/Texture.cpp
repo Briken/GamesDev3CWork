@@ -27,6 +27,16 @@ Texture::Texture(const std::string& fileName)
 	stbi_image_free(imageData);
 }
 
+Texture::Texture()
+{
+}
+
+void Texture::SetTexture(const std::string & fileName)
+{
+	Texture(filename);
+}
+
+
 Texture::~Texture()
 {
 	glDeleteTextures(1, &m_TextureHandler); // number of and address of textures
