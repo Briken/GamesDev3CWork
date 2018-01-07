@@ -11,14 +11,14 @@ public:
 	}
 
 	//Initializes the camera and sets the values for variables required
-	void InitializeCamera(const glm::vec3& pos, float fov, float aspect, float nearClip, float farClip)
+	void InitializeCamera(const glm::vec3& pos, float fov, float aspect, float nearClip, float farClip, bool state)
 	{
 		this->m_Position = pos;
 
 		this->m_Forward = glm::vec3(0.0f, 0.0f, 1.0f);
 		this->m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
 		this->m_Projection = glm::perspective(fov, aspect, nearClip, farClip);
-
+		isActive = state;
 	}
 
 	//Returns the cameras view matrix

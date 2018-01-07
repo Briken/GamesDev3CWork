@@ -53,8 +53,8 @@ void GameApplication::InitializeSystems()
 	model2.LoadModel("../res/box5obj.obj");
 	model3.LoadModel("../res/soccer_ball.obj");
 	
-	m_GameCamera.InitializeCamera(glm::vec3(0, 3, -40), 70.0f, (float)m_GameScreen.GetWidth()/m_GameScreen.GetHeight(), 0.01f, 1000.0f);
-	m_SceneCamera.InitializeCamera(glm::vec3(0, 60, -45), 70.0f, (float)m_GameScreen.GetWidth() / m_GameScreen.GetHeight(), 0.01f, 1000.0f);
+	m_GameCamera.InitializeCamera(glm::vec3(0, 3, -40), 70.0f, (float)m_GameScreen.GetWidth()/m_GameScreen.GetHeight(), 0.01f, 1000.0f, false);
+	m_SceneCamera.InitializeCamera(glm::vec3(0, 60, -45), 70.0f, (float)m_GameScreen.GetWidth() / m_GameScreen.GetHeight(), 0.01f, 1000.0f, true);
 	m_SceneCamera.Pitch(0.25*4);
 	m_ActiveCamera = m_SceneCamera;
 	
@@ -162,7 +162,7 @@ void GameApplication::ManageInput()
 			case SDLK_s:
 				if (controllingModel == false)
 				{
-					m_ActiveCamera.Pitch(0.25f);
+					m_GameCamera.Pitch(0.25f);
 					transform1->SetPos(m_GameCamera.GetForward());
 
 				}
@@ -174,7 +174,7 @@ void GameApplication::ManageInput()
 			case SDLK_d:
 				if (controllingModel == false)
 				{
-					m_ActiveCamera.RotateY(-0.25);
+					m_GameCamera.RotateY(-0.25);
 				}
 				else
 				{
@@ -184,7 +184,7 @@ void GameApplication::ManageInput()
 			case SDLK_a:
 				if (controllingModel == false)
 				{
-					m_ActiveCamera.RotateY(0.25);
+					m_GameCamera.RotateY(0.25);
 				}
 				else
 				{
@@ -204,9 +204,13 @@ void GameApplication::ManageInput()
 				break;
 			case SDLK_0:
 				m_ActiveCamera = m_SceneCamera;
+				m_SceneCamera.isActive = true;
+				m_GameCamera.isActive = false;
 				break;
 			case SDLK_1:
 				m_ActiveCamera = m_GameCamera;
+				m_GameCamera.isActive = true;
+				m_SceneCamera.isActive = false;
 				break;
 			case SDLK_ESCAPE:
 				QuitGame();
@@ -278,7 +282,10 @@ void GameApplication::QuitGame()
 
 void GameApplication::UpdateTransforms()
 {
-
+	if (m_GameCamera.isActive)
+	{
+		m_ActiveCamera = m_GameCamera;
+	}
 	transform->SetPos(glm::vec3(10.0, 0.0, 0.0));
 	transform->SetRot(glm::vec3(0.0, counter * 5, 0.0f));
 	transform->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));

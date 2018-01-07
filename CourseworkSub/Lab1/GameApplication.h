@@ -7,7 +7,6 @@
 #include <glm\ext.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include <SDL\SDL.h>
-
 #include <GL/glew.h>
 #include <Windows.h>
 #include "Screen.h" 
