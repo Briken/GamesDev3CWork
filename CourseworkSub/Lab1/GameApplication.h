@@ -34,7 +34,7 @@ private:
 	void QuitGame();
 	void UpdateTransforms();
 	void CheckCollisions();
-
+	Transform CurrentTransform(int reference);
 	
 
 	Screen m_GameScreen;

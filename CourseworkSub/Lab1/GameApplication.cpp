@@ -324,19 +324,21 @@ void GameApplication::CheckCollisions()
 					if (j != 3)
 					{
 						sceneGraph[j].isActive = false;
-
+						transform = sceneGraph[0];
+						transform1 = sceneGraph[1];
+						transform2 = sceneGraph[2];
+						transform3 = sceneGraph[3];
 					}
 				}
 			}
 		}
 		
 	}
-	
-	if (transform == sceneGraph[1])
-	{
+}
 
-	}
-
+Transform GameApplication::CurrentTransform(int reference)
+{
+	return sceneGraph[reference];
 }
 
 
