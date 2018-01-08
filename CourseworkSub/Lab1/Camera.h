@@ -75,6 +75,7 @@ public:
 	{
 		this->m_Position = pos;
 	}
+	
 
 	bool isActive = true;
 protected:

@@ -368,6 +368,7 @@ void GameApplication::Reload()
 	}
 	m_GameCamera.SetPos(glm::vec3(0, 3, -40));
 	transform3->SetPos(m_GameCamera.GetPos());
+	
 }
 
 
