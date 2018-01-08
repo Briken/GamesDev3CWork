@@ -2,9 +2,6 @@
 #include "Camera.h"
 #include <iostream>
 #include <string>
-//#include <glm/ext.hpp>
-
-unsigned int indices[] = { 0, 1, 2 };
 
 Transform* transform = new Transform();
 Transform* transform1 = new Transform();
@@ -22,7 +19,7 @@ GameApplication::GameApplication()
 	Model* model2 = new Model();
 	Model* model3 = new Model();
 	sceneGraph = { transform, transform1, transform2, transform3 }; 
-	modelGraph = { model, model1, model2, model3 };
+	
 	
 }
 
@@ -65,6 +62,7 @@ void GameApplication::InitializeSystems()
 	sceneGraph[2]->collider.colSize = 2;
 	sceneGraph[3]->collider.colSize = 5;
 	
+	audioManager.GetEngine()->play2D("../res/audio/bensound-extremeaction.wav", GL_TRUE);
 	controllingModel = false;
 	counter = 0.0f;
 }
@@ -72,8 +70,6 @@ void GameApplication::InitializeSystems()
 
 void GameApplication::MainGameLoop()
 {
-	audioManager.GetEngine()->play2D("../res/audio/bensound-extremeaction.wav", GL_TRUE);
-	transform3->SetPos(m_GameCamera.GetPos());
 	while (m_CurrentState != GameState::EXIT)
 	{
 		ManageInput();
@@ -232,8 +228,6 @@ void GameApplication::RenderScene()
 {
 	m_GameScreen.ClearScreen(1.0f, 1.0f, 1.0f, 1.0f);
 
-	
-	//textureGraph = {texture, texture1, texture2};
 
 	if (transform->isActive)
 	{
@@ -300,11 +294,7 @@ void GameApplication::UpdateTransforms()
 	transform2->SetPos(glm::vec3(-10, 0, 0));
 	transform2->SetRot(glm::vec3(0.0, counter * -5, 0.0));
 	transform2->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
-	//sceneGraph = { transform, transform1, transform2, transform3 };
-	//for (int i = 0; i < sceneGraph.size(); i++)
-	//{
-		
-		//}
+	
 }
 
 void GameApplication::CheckCollisions()
@@ -335,10 +325,6 @@ void GameApplication::CheckCollisions()
 
 				if (dist < radSum)
 				{
-					if (i == 2)
-					{
-						i = 2;
-					}
 					if (sceneGraph[i]->isActive && sceneGraph[j]->isActive)
 					{
 						std::cout << "objects " << i << " and " << j << " are colliding" << endl;

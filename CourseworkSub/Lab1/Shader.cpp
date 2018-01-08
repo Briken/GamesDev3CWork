@@ -31,10 +31,7 @@ Shader::Shader()
 {
 }
 
-void Shader::SetShader(const std::string & filename)
-{
-//	Shader(filename);
-}
+
 
 
 Shader::~Shader()
